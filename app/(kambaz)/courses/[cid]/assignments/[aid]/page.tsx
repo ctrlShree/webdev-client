@@ -94,7 +94,7 @@ export default function AssignmentEditor() {
                             <label htmlFor="wd-due-date">Due</label>
                         </td>
                         <td>
-                            <input id="wd-due-date" type="date" defaultValue="2024-05-13" />
+                            <input id="wd-due-date" type="date" defaultValue="2026-09-27" />
                         </td>
                     </tr>
                     <tr>
@@ -105,13 +105,13 @@ export default function AssignmentEditor() {
                             <input
                                 id="wd-available-from"
                                 type="date"
-                                defaultValue="2024-05-06"
+                                defaultValue="2026-09-06"
                             />{" "}
                             <label htmlFor="wd-available-until">Until</label>{" "}
                             <input
                                 id="wd-available-until"
                                 type="date"
-                                defaultValue="2024-05-20"
+                                defaultValue="2026-09-26"
                             />
                         </td>
                     </tr>
