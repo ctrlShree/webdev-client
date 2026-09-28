@@ -8,12 +8,12 @@ export default function AnchorTag() {
       </a>{" "}
       to get dummy text
       <br />
-      <a href="https://github.com/jannunzi" id="wd-github">
+      <a href="https://github.com/ctrlShree/webdev-client" id="wd-github">
         GitHub
       </a>
       <br />
       <a href="https://www.linkedin.com/" id="wd-your-link">
-        Reddit
+        Linkedin
       </a>
       <br />
 
