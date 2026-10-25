@@ -1,86 +1,43 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import "../../kambaz.css";
-
+const LINKS = [
+    { segment: "home", id: "wd-course-home-link", label: "Home" },
+    { segment: "modules", id: "wd-course-modules-link", label: "Modules" },
+    { segment: "piazza", id: "wd-course-piazza-link", label: "Piazza" },
+    { segment: "zoom", id: "wd-course-zoom-link", label: "Zoom" },
+    { segment: "assignments", id: "wd-course-assignments-link", label: "Assignments" },
+    { segment: "quizzes", id: "wd-course-quizzes-link", label: "Quizzes" },
+    { segment: "grades", id: "wd-course-grades-link", label: "Grades" },
+    { segment: "people/table", id: "wd-course-people-link", label: "People" },
+    { segment: "announcements", id: "wd-course-announcements-link", label: "Announcements" },
+] as const;
 export default function CourseNavigation({ cid }: { cid: string }) {
     const pathname = usePathname() ?? "";
-    const home = `/courses/${cid}/home`;
-    const modules = `/courses/${cid}/modules`;
-    const piazza = `/courses/${cid}/piazza`;
-    const zoom = `/courses/${cid}/zoom`;
-    const assignments = `/courses/${cid}/assignments`;
-    const quizzes = `/courses/${cid}/quizzes`;
-    const grades = `/courses/${cid}/grades`;
-    const people = `/courses/${cid}/people/table`;
-    const sample = `/courses/${cid}/home`;
-
-    const itemClass = (href: string, exact = true) => {
-        const active = exact
-            ? pathname === href
-            : pathname === href || pathname.startsWith(href + "/");
-        return active
-            ? "list-group-item active border-0"
-            : "list-group-item border-0 text-red-600";
-    };
-
+    const inCourse = pathname.startsWith(`/courses/${cid}`);
     return (
-        <div id="wd-courses-navigation" className="wd list-group rounded-none text-lg">
-            <Link href={home} id="wd-course-home-link" className={itemClass(home)}>
-                Home
-            </Link>
-            <Link
-                href={modules}
-                id="wd-course-modules-link"
-                className={itemClass(modules)}
-            >
-                Modules
-            </Link>
-            <Link
-                href={piazza}
-                id="wd-course-piazza-link"
-                className={itemClass(piazza)}
-            >
-                Piazza
-            </Link>
-            <Link href={zoom} id="wd-course-zoom-link" className={itemClass(zoom)}>
-                Zoom
-            </Link>
-            <Link
-                href={assignments}
-                id="wd-course-assignments-link"
-                className={itemClass(assignments, false)}
-            >
-                Assignments
-            </Link>
-            <Link
-                href={quizzes}
-                id="wd-course-quizzes-link"
-                className={itemClass(quizzes)}
-            >
-                Quizzes
-            </Link>
-            <Link
-                href={grades}
-                id="wd-course-grades-link"
-                className={itemClass(grades)}
-            >
-                Grades
-            </Link>
-            <Link
-                href={people}
-                id="wd-course-people-link"
-                className={itemClass(people)}
-            >
-                People
-            </Link>
-            <Link
-                href={sample}
-                id="wd-course-ai-link"
-                className="list-group-item border-0 text-red-600"
-            >
-                Sample
-            </Link>
+        <div id="wd-courses-navigation" className="flex flex-col text-lg">
+            {LINKS.map(({ segment, id, label }) => {
+                const href = `/courses/${cid}/${segment}`;
+                const active = inCourse
+                    ? pathname === href ||
+                    (segment !== "home" && pathname.startsWith(href))
+                    : segment === "home";
+                return (
+                    <Link
+                        key={id}
+                        href={href}
+                        id={id}
+                        aria-current={active ? "page" : undefined}
+                        className={`border-l-4 px-3 py-2 no-underline ${active
+                                ? "active border-black font-medium text-black"
+                                : "border-transparent text-red-600 hover:bg-neutral-100"
+                            }`}
+                    >
+                        {label}
+                    </Link>
+                );
+            })}
         </div>
     );
 }
