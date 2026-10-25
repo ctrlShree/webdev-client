@@ -238,5 +238,45 @@
         "module": "M303"
       }
     ]
+  },
+  {
+    "_id": "M501",
+    "name": "Foundations of AI Agents",
+    "description": "What makes a system agentic.",
+    "course": "CS105",
+    "lessons": [
+      {
+        "_id": "L5011",
+        "name": "Agents vs. Chatbots",
+        "description": "Autonomy, tools, and goals.",
+        "module": "M501"
+      },
+      {
+        "_id": "L5012",
+        "name": "The Agent Loop",
+        "description": "Plan, act, observe, repeat.",
+        "module": "M501"
+      }
+    ]
+  },
+  {
+    "_id": "M502",
+    "name": "Building with LangGraph",
+    "description": "Graphs, state, and tool calls.",
+    "course": "CS105",
+    "lessons": [
+      {
+        "_id": "L5021",
+        "name": "Nodes and Edges",
+        "description": "Modeling an agent as a state graph.",
+        "module": "M502"
+      },
+      {
+        "_id": "L5022",
+        "name": "Deploying an Agent",
+        "description": "Serving an agent behind an API.",
+        "module": "M502"
+      }
+    ]
   }
 ]

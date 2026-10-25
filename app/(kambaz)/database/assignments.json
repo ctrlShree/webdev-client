@@ -88,5 +88,14 @@
     "due": "2024-06-03",
     "available": "2024-05-27",
     "description": "Analyze lift and drag on a NACA airfoil across a range of angles of attack and report how stall develops."
+  },
+  {
+    "_id": "A501",
+    "title": "A1",
+    "course": "CS105",
+    "description": "Build a single-tool agent that answers questions using a search tool and explain its reasoning loop.",
+    "points": 100,
+    "due": "2026-02-10",
+    "available": "2026-02-01"
   }
 ]

@@ -9,7 +9,7 @@
     "department": "D123",
     "credits": 4,
     "description": "This course provides an in-depth study of the fundamentals of rocket propulsion, including thermodynamics of the combustion chamber and nozzle. Students analyze solid, liquid, and hybrid rocket motors and apply propulsion theory to engine performance.",
-    "image": "/images/reactjs.jpg"
+    "image": "/images/rocketprop.jpg"
   },
   {
     "_id": "RS102",
@@ -21,7 +21,7 @@
     "department": "D123",
     "credits": 3,
     "description": "This course explores the principles of aerodynamics and how airflow interacts with wings, airfoils, and other flying bodies. Students study lift, drag, compressible flow, and the aerodynamic considerations used in aircraft and spacecraft design.",
-    "image": "/images/nodejs.jpg"
+    "image": "/images/aero.jpg"
   },
   {
     "_id": "RS103",
@@ -33,7 +33,7 @@
     "department": "D123",
     "credits": 4,
     "description": "This course covers the principles of spacecraft design, including structures, propulsion, thermal control, and power systems. Students apply systems engineering methods to mission design, orbital mechanics, and payload integration for current and future space missions.",
-    "image": "/images/mongodb.jpg"
+    "image": "/images/spacedesign.jpg"
   },
     {
     "_id": "RS104",
@@ -45,7 +45,7 @@
     "department": "D123",
     "credits": 4,
     "description": "This course introduces the structure, properties, and reactions of organic compounds, with an emphasis on reaction mechanisms and laboratory synthesis.",
-    "image": "/images/reactjs.jpg"
+    "image": "/images/orgchem.jpg"
   },
   {
     "_id": "CS105",
@@ -57,6 +57,6 @@
     "department": "H108",
     "credits": 4,
     "description": "This course involves planning, building, and deployment of AI Agents using frameworks such as langGraph.",
-    "image": "/images/reactjs.jpg"
+    "image": "/images/agentic.jpg"
   }
 ]
