@@ -8,10 +8,11 @@ const LINKS = [
     { href: "/labs/lab2", id: "wd-lab2-link", label: "Lab 2", match: (p: string) => p.includes("/lab2") },
     { href: "/labs/lab3", id: "wd-lab3-link", label: "Lab 3", match: (p: string) => p.includes("/lab3") },
     { href: "/labs/lab4", id: "wd-lab4-toc-link", label: "Lab 4", match: (p: string) => p.includes("/lab4") },
+    { href: "/labs/lab5", id: "wd-lab5-toc-link", label: "Lab 5", match: (p: string) => p.includes("/lab5") },
     { href: "/book/ch1", id: "wd-toc-book-link", label: "Chapter 1", match: () => false },
     { href: "/", id: "wd-kambaz-link", label: "Kambaz", match: () => false },
-    { href: "https://kambaz.dev/book/ch4", id: "wd-book-ch4-link", label: "Book Ch4", match: () => false },
-] as const;
+    { href: "https://github.com/ctrlShree/webdev-server", id: "wd-server-github-toc-link", label: "Server GitHub", match: () => false },
+    { href: "https://webdev-server-z8nl.onrender.com", id: "wd-server-url-toc-link", label: "Server (Render)", match: () => false },] as const;
 export default function TOC() {
     const pathname = usePathname() ?? "";
     return (
