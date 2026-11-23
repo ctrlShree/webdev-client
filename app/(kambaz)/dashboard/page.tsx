@@ -1,29 +1,65 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import { emptyCourse, useCoursesStore, type Course } from "../store/coursesStore";
-import { isEnrolled, useEnrollmentsStore } from "../store/enrollmentsStore";
+import { useEnrollmentsStore } from "../store/enrollmentsStore";
 import { useAccountContext } from "../account/AccountContext";
+import * as client from "../courses/client";
 const field =
   "mb-2 block w-full max-w-xl rounded border border-neutral-300 px-3 py-1.5";
 export default function Dashboard() {
   const courses = useCoursesStore((state) => state.courses);
+  const setCourses = useCoursesStore((state) => state.setCourses);
   const addCourse = useCoursesStore((state) => state.addCourse);
   const updateCourse = useCoursesStore((state) => state.updateCourse);
-  const enrollments = useEnrollmentsStore((state) => state.enrollments);
-  const enroll = useEnrollmentsStore((state) => state.enroll);
-  const unenroll = useEnrollmentsStore((state) => state.unenroll);
+  const deleteCourse = useCoursesStore((state) => state.deleteCourse);
+  const enrollInStore = useEnrollmentsStore((state) => state.enroll);
+  const unenrollInStore = useEnrollmentsStore((state) => state.unenroll);
   const { currentUser } = useAccountContext();
+  const [myCourses, setMyCourses] = useState<Course[]>([]);
   const [course, setCourse] = useState<Course>(emptyCourse);
   const [showAllCourses, setShowAllCourses] = useState(false);
   const canEdit = currentUser?.role !== "STUDENT";
-  const visibleCourses =
-    currentUser && !showAllCourses
-      ? courses.filter((c) => isEnrolled(enrollments, currentUser._id, c._id))
-      : courses;
-  const add = () => {
-    const newId = addCourse(course);
-    if (currentUser) enroll(currentUser._id, newId);
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setCourses(await client.fetchAllCourses());
+        setMyCourses(currentUser ? await client.findMyCourses() : []);
+      } catch {
+        setMyCourses([]);
+      }
+    };
+    load();
+  }, [currentUser, setCourses]);
+  const isMine = (courseId: string) => myCourses.some((c) => c._id === courseId);
+  const visibleCourses = currentUser && !showAllCourses ? myCourses : courses;
+  const onAddCourse = async () => {
+    const newCourse = await client.createCourse(course);
+    addCourse(newCourse);
+    setMyCourses([...myCourses, newCourse]);
+    if (currentUser) enrollInStore(currentUser._id, newCourse._id);
+  };
+  const onUpdateCourse = async () => {
+    const saved = await client.updateCourse(course);
+    updateCourse(saved);
+    setMyCourses(myCourses.map((c) => (c._id === saved._id ? saved : c)));
+  };
+  const onDeleteCourse = async (courseId: string) => {
+    await client.deleteCourse(courseId);
+    deleteCourse(courseId);
+    setMyCourses(myCourses.filter((c) => c._id !== courseId));
+  };
+  const onEnroll = async (c: Course) => {
+    if (!currentUser) return;
+    await client.enrollIntoCourse(c._id);
+    setMyCourses([...myCourses, c]);
+    enrollInStore(currentUser._id, c._id);
+  };
+  const onUnenroll = async (c: Course) => {
+    if (!currentUser) return;
+    await client.unenrollFromCourse(c._id);
+    setMyCourses(myCourses.filter((m) => m._id !== c._id));
+    unenrollInStore(currentUser._id, c._id);
   };
   return (
     <div id="wd-dashboard">
@@ -51,7 +87,7 @@ export default function Dashboard() {
               type="button"
               className="rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white"
               id="wd-add-new-course-click"
-              onClick={add}
+              onClick={onAddCourse}
             >
               Add
             </button>
@@ -59,7 +95,7 @@ export default function Dashboard() {
               type="button"
               className="rounded bg-yellow-400 px-3 py-1.5 text-sm font-medium"
               id="wd-update-course-click"
-              onClick={() => updateCourse(course)}
+              onClick={onUpdateCourse}
             >
               Update
             </button>
@@ -109,9 +145,10 @@ export default function Dashboard() {
             course={c}
             canEdit={canEdit}
             onEdit={() => setCourse(c)}
-            enrolled={currentUser ? isEnrolled(enrollments, currentUser._id, c._id) : undefined}
-            onEnroll={() => currentUser && enroll(currentUser._id, c._id)}
-            onUnenroll={() => currentUser && unenroll(currentUser._id, c._id)}
+            onDelete={() => onDeleteCourse(c._id)}
+            enrolled={currentUser ? isMine(c._id) : undefined}
+            onEnroll={() => onEnroll(c)}
+            onUnenroll={() => onUnenroll(c)}
           />
         ))}
       </div>

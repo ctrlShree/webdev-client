@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { MouseEvent } from "react";
-import { useCoursesStore, type Course } from "../store/coursesStore";
+import { type Course } from "../store/coursesStore";
 const button =
   "inline-flex items-center justify-center rounded px-3 py-1.5 text-sm font-medium";
 export default function CourseCard({
   course,
   canEdit,
   onEdit,
+  onDelete,
   enrolled,
   onEnroll,
   onUnenroll,
@@ -15,11 +16,11 @@ export default function CourseCard({
   course: Course;
   canEdit: boolean;
   onEdit: () => void;
+  onDelete: () => void;
   enrolled?: boolean;
   onEnroll: () => void;
   onUnenroll: () => void;
 }) {
-  const deleteCourse = useCoursesStore((state) => state.deleteCourse);
   const stay = (event: MouseEvent, action: () => void) => {
     event.preventDefault();
     event.stopPropagation();
@@ -63,7 +64,7 @@ export default function CourseCard({
                   type="button"
                   id="wd-delete-course-click"
                   className={`${button} bg-red-600 text-white`}
-                  onClick={(event) => stay(event, () => deleteCourse(course._id))}
+                  onClick={(event) => stay(event, onDelete)}
                 >
                   Delete
                 </button>

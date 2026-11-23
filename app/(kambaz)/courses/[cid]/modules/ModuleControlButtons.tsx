@@ -3,6 +3,7 @@ import { BsPlus } from "react-icons/bs";
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "./GreenCheckmark";
 import { useModulesStore } from "../../../store/modulesStore";
+import * as client from "../../client";
 export default function ModuleControlButtons({
   moduleId,
 }: {
@@ -10,6 +11,10 @@ export default function ModuleControlButtons({
 }) {
   const deleteModule = useModulesStore((state) => state.deleteModule);
   const editModule = useModulesStore((state) => state.editModule);
+  const onRemoveModule = async () => {
+    await client.deleteModule(moduleId);
+    deleteModule(moduleId);
+  };
   return (
     <div className="flex items-center gap-2">
       <FaPencilAlt
@@ -19,7 +24,7 @@ export default function ModuleControlButtons({
       />
       <FaTrash
         className="wd-delete-module cursor-pointer text-base text-red-600"
-        onClick={() => deleteModule(moduleId)}
+        onClick={onRemoveModule}
         title="Delete module"
       />
       <GreenCheckmark />

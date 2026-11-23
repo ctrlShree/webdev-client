@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAccountContext, type User } from "../AccountContext";
 import { useUsersStore } from "../../store/usersStore";
+import * as client from "../client";
 
 const field = "mb-2 w-full rounded border border-neutral-300 px-3 py-2";
 
 export default function Profile() {
   const [profile, setProfile] = useState<User | null>(null);
   const { currentUser, setCurrentUser } = useAccountContext();
-  const updateUser = useUsersStore((state) => state.updateUser);
+  const updateUserInStore = useUsersStore((state) => state.updateUser);
   const router = useRouter();
   useEffect(() => {
     if (!currentUser) {
@@ -18,12 +19,14 @@ export default function Profile() {
     }
     setProfile(currentUser);
   }, [currentUser, router]);
-  const update = () => {
+  const update = async () => {
     if (!profile) return;
-    updateUser(profile);
-    setCurrentUser(profile);
+    const saved = await client.updateUser(profile);
+    updateUserInStore(saved);
+    setCurrentUser(saved);
   };
-  const signout = () => {
+  const signout = async () => {
+    await client.signout();
     setCurrentUser(null);
     router.push("/account/signin");
   };
